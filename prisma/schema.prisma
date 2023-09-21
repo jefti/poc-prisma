@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,53 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+//Disciplinas do tópico (1:n)
+model Disciplina {
+  id Int @id @default(autoincrement())
+  nome String
+  Topicos Topico[]
+  @@map("disciplinas")
+}
+//Tópicos das questões (n:m)
+model Topico{
+  id Int @id @default(autoincrement()) 
+  nome String
+  idDisciplina Int
+  Disciplina Disciplina @relation(fields: [idDisciplina], references: [id])
+  Resumo Resumo?
+  Questoes TopicosDaQuestao[]
+
+  @@map("topicos")
+}
+
+//Resumo do tópico (1:1)
+model Resumo{
+  id Int @id @default(autoincrement()) 
+  conteudo String
+  idTopico Int @unique
+  Topico Topico @relation(fields: [idTopico], references: [id])
+
+  @@map("resumos")
+}
+
+//Tabela de meio entre tópicos e questões (n:m)
+model TopicosDaQuestao {
+  Topico Topico @relation(fields: [TopicoId], references: [id])
+  TopicoId Int
+  Questao Questao @relation(fields: [QuestaoId], references: [id])
+  QuestaoId Int
+
+  @@id([TopicoId,QuestaoId])
+}
+
+//Questões de estudo
+model Questao {
+  id Int @id @default(autoincrement())
+  pergunta String
+  resposta String
+  Topicos TopicosDaQuestao[]
+
+  @@map("questoes")  
 }
