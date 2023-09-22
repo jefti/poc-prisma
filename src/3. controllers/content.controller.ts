@@ -1,13 +1,17 @@
 import { createDisciplina, createResumo, createTopico } from "@/2.1 protocols/protocols";
+import { contentService } from "@/4. services/content.service";
+import { Disciplina } from "@prisma/client";
 import { Request, Response } from "express";
 
 async function getDisciplinas(req:Request, res: Response){
-    return res.send("Get Disciplinas");
+    const lista = await contentService.selectDisciplinas();
+    return res.send(lista);
 }
 
 async function postDisciplina(req:Request, res: Response){
     const {nome} = req.body as createDisciplina;
-    return res.send(nome);
+    await contentService.createDisciplina(nome);
+    return res.sendStatus(201);
 }
 
 async function getTopicos(req:Request, res: Response){

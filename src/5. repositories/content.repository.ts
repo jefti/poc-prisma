@@ -1,8 +1,15 @@
+import prisma from "@/5.1 database/database";
+
 async function selectDisciplinasDB(){
-
+    const disciplinas = await prisma.disciplina.findMany();
+    return disciplinas;
 }
-async function createDisciplinaDB(){
-
+async function createDisciplinaDB(nome:string){
+    await prisma.disciplina.create({
+        data:{
+            nome
+        }
+    })
 }
 
 async function selectTopicosDB(){
