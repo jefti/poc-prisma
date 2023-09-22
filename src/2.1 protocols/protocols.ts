@@ -1,6 +1,5 @@
 import { Disciplina, Questao, Resumo, Topico } from "@prisma/client";
 import httpStatus from "http-status";
-import { type } from "os";
 
 export type createDisciplina = Omit<Disciplina, "id">;
 export type createTopico = Omit<Topico, "id">;

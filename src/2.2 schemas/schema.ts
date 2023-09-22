@@ -17,4 +17,5 @@ const questaoSchema = Joi.object<createQuestao>({
     resposta: Joi.string().required(),
     idTopico: Joi.string().required()
 });
+
 export const schemas = {disciplinaSchema,topicoSchema,resumoSchema,questaoSchema};
